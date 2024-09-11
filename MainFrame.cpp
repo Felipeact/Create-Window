@@ -2,17 +2,19 @@
 //#include <wx/spinctrl.h>
 
 
-enum IDs {
-	BUTTON_ID = 2,
-	SLIDER_ID = 3,
-	TEXT_ID = 4
-};
+//Events
 
-wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
-EVT_BUTTON(BUTTON_ID, MainFrame::OnButtonClicked)
-EVT_SLIDER(SLIDER_ID, MainFrame::OnSliderChanged)
-EVT_TEXT(TEXT_ID, MainFrame::OnTextChanged)
-wxEND_EVENT_TABLE()
+//enum IDs {
+//	BUTTON_ID = 2,
+//	SLIDER_ID = 3,
+//	TEXT_ID = 4
+//};
+//
+//wxBEGIN_EVENT_TABLE(MainFrame, wxFrame)
+//	EVT_BUTTON(BUTTON_ID, MainFrame::OnButtonClicked)
+//	EVT_SLIDER(SLIDER_ID, MainFrame::OnSliderChanged)
+//	EVT_TEXT(TEXT_ID, MainFrame::OnTextChanged)
+//wxEND_EVENT_TABLE()
 
 
 MainFrame::MainFrame(const wxString& title) :
@@ -61,9 +63,15 @@ MainFrame::MainFrame(const wxString& title) :
 	//wxRadioBox* RadioBox = new wxRadioBox(panel, wxID_ANY, "Radio Box", wxPoint(555, 450), wxDefaultSize, choices, 3,
 	///* style */ wxRA_SPECIFY_ROWS);
 
-	wxButton* button = new wxButton(panel, BUTTON_ID, "Button", wxPoint(300, 275), wxSize(200, 50));
-	wxSlider* Slider = new wxSlider(panel, SLIDER_ID, 0, 0, 100, wxPoint(300, 200), wxSize(200, -1));
-	wxTextCtrl* Text = new wxTextCtrl(panel, TEXT_ID, " ", wxPoint(300, 375), wxSize(100, -1));
+	wxButton* button = new wxButton(panel, wxID_ANY, "Button", wxPoint(300, 275), wxSize(200, 50));
+	wxSlider* Slider = new wxSlider(panel, wxID_ANY, 0, 0, 100, wxPoint(300, 200), wxSize(200, -1));
+	wxTextCtrl* Text = new wxTextCtrl(panel, wxID_ANY, " ", wxPoint(300, 375), wxSize(100, -1));
+
+	button->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
+	Slider->Bind(wxEVT_SLIDER, &MainFrame::OnSliderChanged, this);
+	Text->Bind(wxEVT_TEXT, &MainFrame::OnTextChanged, this);
+
+	button->Unbind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
 
 	CreateStatusBar();
 }
