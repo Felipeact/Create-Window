@@ -63,33 +63,38 @@ MainFrame::MainFrame(const wxString& title) :
 	//wxRadioBox* RadioBox = new wxRadioBox(panel, wxID_ANY, "Radio Box", wxPoint(555, 450), wxDefaultSize, choices, 3,
 	///* style */ wxRA_SPECIFY_ROWS);
 
-	wxButton* button = new wxButton(panel, wxID_ANY, "Button", wxPoint(300, 275), wxSize(200, 50));
-	wxSlider* Slider = new wxSlider(panel, wxID_ANY, 0, 0, 100, wxPoint(300, 200), wxSize(200, -1));
-	wxTextCtrl* Text = new wxTextCtrl(panel, wxID_ANY, " ", wxPoint(300, 375), wxSize(100, -1));
+	wxButton* button1 = new wxButton(panel, wxID_ANY, "Button 1", wxPoint(300, 275), wxSize(200, 50));
+	wxButton* button2 = new wxButton(panel, wxID_ANY, "Button 2", wxPoint(300, 350), wxSize(200, 50));
 
-	button->Bind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
-	Slider->Bind(wxEVT_SLIDER, &MainFrame::OnSliderChanged, this);
-	Text->Bind(wxEVT_TEXT, &MainFrame::OnTextChanged, this);
 
-	button->Unbind(wxEVT_BUTTON, &MainFrame::OnButtonClicked, this);
-
+	this->Bind(wxEVT_CLOSE_WINDOW, &MainFrame::OnClose, this);
+	this->Bind(wxEVT_BUTTON, &MainFrame::OnAnyButtonClicked, this);
+	button1->Bind(wxEVT_BUTTON, &MainFrame::OnButton1Clicked, this);
+	button2->Bind(wxEVT_BUTTON, &MainFrame::OnButton2Clicked, this);
+	
 	CreateStatusBar();
 }
 
-void MainFrame::OnButtonClicked(wxCommandEvent& evt)
+void MainFrame::OnAnyButtonClicked(wxCommandEvent& evt)
 {
-	wxLogStatus("Button Clicked");
+	wxLogMessage("Button Clicked");
 }
 
-void MainFrame::OnSliderChanged(wxCommandEvent& evt)
+void MainFrame::OnButton1Clicked(wxCommandEvent& evt)
 {
-	wxString str = wxString::Format("Slider Value: %d", evt.GetInt());
-	wxLogStatus(str);
-
+	wxLogStatus("Button 1 Clicked");
+	evt.Skip();
 }
 
-void MainFrame::OnTextChanged(wxCommandEvent& evt)
+void MainFrame::OnButton2Clicked(wxCommandEvent& evt)
 {
-	wxString str = wxString::Format("Text: %s", evt.GetString());
-	wxLogStatus(str);
+	wxLogStatus("Button 2 Clicked");
+	evt.Skip();
 }
+
+void MainFrame::OnClose(wxCloseEvent& evt)
+{
+	wxLogMessage("Frame Closed");
+	evt.Skip();
+}
+
